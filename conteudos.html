@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #captcha-section, #success-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        #success-section {
+            display: none;
+        }
+        button {
+            background: #2481cc;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #1a6cb0;
+        }
+        #captcha-text {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            background: #eee;
+            padding: 15px;
+            border-radius: 8px;
+            user-select: none;
+        }
+        input {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .channel-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="captcha-section">
+            <h2>comprovação de Segurança</h2>
+            <p>Digite a frase a seguir para provar que não é um robô</p>
+            <div id="captcha-text">OrdemPiratas123</div>
+            <input type="text" id="user-input" placeholder="Digite o código aqui">
+            <button onclick="checkCaptcha()">Verificar</button>
+            <p id="error-message" style="color: red; display: none;">Código incorreto! Tente novamente.</p>
+        </div>
+
+        <div id="success-section">
+            <h2>Teste concluído!</h2>
+            <p>Aqui está o acesso ao nosso canal:</p>
+            <a href="https://t.me/+7rKNxSdsgOg4ZWUx" class="channel-link" target="_blank">
+                Entrar no canal
+            </a>
+            <button onclick="resetCaptcha()">Voltar</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        const captchaCode = "ORDEMPIRATAS123"; // Código fixo (pode ser gerado dinamicamente)
+        
+        // Inicializa o Mini App
+        tg.ready();
+        tg.expand();
+        
+        function checkCaptcha() {
+            const userInput = document.getElementById('user-input').value.toUpperCase();
+            const errorElement = document.getElementById('error-message');
+            
+            if(userInput === captchaCode) {
+                document.getElementById('captcha-section').style.display = 'none';
+                document.getElementById('success-section').style.display = 'flex';
+                errorElement.style.display = 'none';
+            } else {
+                errorElement.style.display = 'block';
+                // Limpa o campo de entrada
+                document.getElementById('user-input').value = '';
+            }
+        }
+        
+        function resetCaptcha() {
+            document.getElementById('captcha-section').style.display = 'flex';
+            document.getElementById('success-section').style.display = 'none';
+            document.getElementById('user-input').value = '';
+        }
+    </script>
+</body>
+</html>
